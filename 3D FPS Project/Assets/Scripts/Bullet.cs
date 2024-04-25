@@ -19,23 +19,28 @@ public class Bullet : MonoBehaviour
     void Update()
     {
         _rigidbody.velocity = transform.forward * moveSpeed;
+
+         lifeTime -= Time.deltaTime;
+
+        if(lifeTime <= 0)
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     void OnTriggerEnter(Collider other)
     {
-      if(other.gameObject.CompareTag("TargetStanding"))
-      {
-         Debug.Log("I hit the standing target.");
-         GameObject.Find("Game Manager").GetComponent<GameManager>().UpdateTargetAmount();
-         Destroy(this.gameObject);
-         other.gameObject.SetActive(false);
-      }
-      if(other.gameObject.CompareTag("TargetFloating"))
-      {
-         Debug.Log("I hit the floating target");
-         GameObject.Find("Game Manager").GetComponent<GameManager>().UpdateTargetAmount();
-         Destroy(this.gameObject);
-         Destroy(other.gameObject);
-      }
+       if(other.gameObject.CompareTag("TargetStanding") || other.gameObject.CompareTag("TargetFloating"))
+        {
+            //Debug.Log("I hit the standing target.");
+            //add code to add hit points to your scoreboard
+            GameObject.Find("Game Manager").GetComponent<GameManager>().UpdateTargetAmount();
+            //gray out the standing target
+            Destroy(this.gameObject);
+            other.gameObject.SetActive(false);
+        }
+
+        //if bullet hits any object other than the target
+        Destroy(this.gameObject);
     }
 }

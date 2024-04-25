@@ -5,24 +5,25 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 
-    public float jumpForce = 10f;
     public float moveSpeed = 1f;
+    public float jumpForce = 10f;
+    public float gravityModifier = 1f;
+    public float mouseSensitivity = 1f;
+    public GameObject bullet;
+    public Transform firePoint;
     public Transform theCamera;
     public Transform groundCheckpoint;
     public LayerMask whatIsGround;
-    public GameObject bullet;
-    private Ammo _ammo;
-    public Transform firePoint;
-    public float mouseSensitivity = 1f;
-    public float gravityModifier = 1f;
     private bool _canPlayerJump;
     private Vector3 _moveInput;
-    private CharacterController  _characterController;
+    private CharacterController _characterController;
+    private Ammo _ammo;
 
     // Start is called before the first frame update
     void Start()
     {
         _characterController = GetComponent<CharacterController>();
+        _ammo = GetComponent<Ammo>();
     }
 
     // Update is called once per frame
@@ -69,7 +70,7 @@ public class PlayerController : MonoBehaviour
      transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y + mouseInput.x, transform.rotation.eulerAngles.z);
 
      theCamera.rotation = Quaternion.Euler(theCamera.rotation.eulerAngles + new Vector3(-mouseInput.y, 0f, 0f));
-     if(Input.GetMouseButtonDown(0))
+     if(Input.GetMouseButtonDown(0) && _ammo.GetAmmoAmount() >  0)
      {
        //Find the crosshair
        RaycastHit hit;

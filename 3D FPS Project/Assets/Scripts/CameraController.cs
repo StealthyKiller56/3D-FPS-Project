@@ -13,10 +13,4 @@ public class CameraController : MonoBehaviour
         transform.position = objectToFollow.position;
         transform.rotation = objectToFollow.rotation;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
